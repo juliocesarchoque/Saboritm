@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Recetas - Saboritm</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='14' fill='%23D6A23B' /%3E%3Cpath fill='none' stroke='%23D6A23B' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' d='M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z' /%3E%3Cpath fill='none' stroke='%23D6A23B' stroke-width='2.3' stroke-linejoin='round' stroke-linecap='round' d='M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z' transform='translate(50,50) scale(0.86) translate(-50,-50)' /%3E%3C/svg%3E">
+    <meta name="theme-color" content="#198754">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Tagify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+        .admin-header {
+            background: #fff;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1.5rem;
+        }
+        /* Mobile modal tweaks */
+        @media (max-width: 576px) {
+            .modal-fullscreen-sm-down .modal-body {
+                padding: 1rem !important;
+                -webkit-overflow-scrolling: touch;
+                overflow-y: auto !important;
+            }
+            .modal-fullscreen-sm-down .modal-footer {
+                padding: 0.75rem 1rem !important;
+            }
+            .modal-fullscreen-sm-down .modal-footer .btn { flex: 1; }
+            .modal-fullscreen-sm-down .modal-content {
+                border-radius: 0 !important;
+            }
+            .paso-numero { min-width: 24px; font-size: 0.85rem; }
+            .step-textarea { font-size: 0.9rem; }
+        }
+        .ing-header-row { display: flex; gap: 6px; padding: 0 4px; margin-bottom: 4px; }
+        .ing-header-row span { font-size: 0.68rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.03em; }
+        .ing-header-row .lbl-ing  { flex: 0 0 42%; }
+        .ing-header-row .lbl-cant { flex: 0 0 18%; }
+        .ing-header-row .lbl-unit { flex: 0 0 28%; }
+        .ing-header-row .lbl-del  { flex: 0 0 10%; }
+        @media (max-width: 576px) {
+            .ing-header-row { display: none; } /* On mobile rows stack so headers make no sense */
+        }
+        .ing-label-mobile {
+            display: none;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        @media (max-width: 576px) {
+            .ing-label-mobile { display: block; }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="34" height="34" style="overflow: visible;">
+                    <circle cx="50" cy="50" r="14" fill="#D6A23B" />
+                    <path fill="none" stroke="#D6A23B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z" />
+                    <path fill="none" stroke="#D6A23B" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" d="M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z" transform="translate(50,50) scale(0.86) translate(-50,-50)" />
+                </svg>
+                <span class="fs-4" style="letter-spacing: -0.5px;">
+                    <span style="color: #198754; font-weight: 700;">Sabor</span><span style="color: #212529; font-weight: 400;">itm</span>
+                </span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link-custom active" href="#" role="button" data-bs-toggle="dropdown">
+                            Catálogos
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow-lg rounded-4 p-2">
+                            <li><a class="dropdown-item py-2 px-3 rounded-3 active" href="recetas.html"><i class="bi bi-book me-2"></i>Recetas</a></li>
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="categorias.html"><i class="bi bi-tags me-2"></i>Categorías</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="ingredientes.html"><i class="bi bi-basket me-2"></i>Ingredientes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-3 mt-3 mt-lg-0 pb-3 pb-lg-0">
+                    <a href="sugerencias_cocina.html" class="btn btn-premium btn-premium-success shadow justify-content-center">
+                        <i class="bi bi-magic fs-5"></i> <span>¿Qué cocino hoy?</span>
+                    </a>
+                    <button id="btn-auth-session" class="btn btn-outline-success border-2 rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2" title="Admin">
+                        <i class="bi bi-person-fill fs-4"></i> Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-header py-4 bg-white border-bottom">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="text-center text-md-start">
+                <h1 class="h2 fw-bold text-dark mb-1">Gestión de Recetas</h1>
+                <p class="text-muted mb-0">Administra y organiza tus creaciones culinarias</p>
+            </div>
+            <a href="receta_registro.html" class="btn btn-premium btn-premium-success solo-admin shadow-sm">
+                <i class="bi bi-plus-circle"></i> <span>Nueva Receta</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <!-- Search & Filter Area -->
+        <div class="card card-premium p-3 mb-4 border-0">
+            <div class="row g-2">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search text-muted"></i></span>
+                        <input type="text" id="filtroNombreCat" class="form-control form-control-premium border-start-0" placeholder="Buscar por nombre...">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select id="filtroCategoriaCat" class="form-select form-control-premium">
+                        <option value="">Todas las categorías</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recipe List -->
+        <div class="row g-3" id="recetas-container">
+            <!-- Loading -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-success" role="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Receta eliminado: se movió a receta_registro.html -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.42.0/dist/umd/supabase.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        const DEFAULT_NO_FOOD = 'assets/no-food.png';
+        let todasLasRecetasAdmin = [];
+        let ingredientesDB = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await Promise.all([cargarRecetas(), loadFiltroCategorias()]);
+            
+            // Filtros
+            document.getElementById('filtroNombreCat').addEventListener('input', aplicarFiltrosAdmin);
+            document.getElementById('filtroCategoriaCat').addEventListener('change', aplicarFiltrosAdmin);
+        });
+
+        async function loadFiltroCategorias() {
+            const selFiltro = document.getElementById('filtroCategoriaCat');
+            const catDB = await api.get('/categorias');
+            if (catDB) {
+                catDB.forEach(c => {
+                    selFiltro.innerHTML += `<option value="${c.idCategoria}">${c.nombre}</option>`;
+                });
+            }
+        }
+
+        async function cargarRecetas() {
+            const container = document.getElementById('recetas-container');
+            const recetas = await api.get('/recetas');
+            todasLasRecetasAdmin = recetas || [];
+            renderizarRecetasAdmin(todasLasRecetasAdmin);
+        }
+
+        function renderizarRecetasAdmin(recetas) {
+            const container = document.getElementById('recetas-container');
+            container.innerHTML = '';
+            
+            if (recetas.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-book display-1 text-muted opacity-25"></i>
+                        <p class="text-muted mt-3">No hay recetas que mostrar.</p>
+                    </div>`;
+                return;
+            }
+            
+            recetas.forEach((r, index) => {
+                const catName = r.categoria ? r.categoria.nombre : 'Sin categoría';
+                const id = r.idReceta || r.id;
+                const img = resolveImgUrl(r.imagenUrl) || DEFAULT_NO_FOOD;
+                const delay = (index % 8) * 0.05;
+
+                container.innerHTML += `
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 animate-fade-in" style="animation-delay: ${delay}s">
+                        <div class="card card-premium d-flex flex-column">
+                            <div class="card-img-container position-relative">
+                                <span class="recipe-badge position-absolute top-0 end-0 m-2 z-3" style="padding: 0.25rem 0.75rem; font-size: 0.65rem">
+                                    ${catName}
+                                </span>
+                                <img src="${img}" class="card-img-top" style="height: 160px; object-fit: cover;">
+                            </div>
+                            <div class="card-body p-3 d-flex flex-column">
+                                <h6 class="fw-bold text-dark text-truncate mb-1">${r.nombre}</h6>
+                                <p class="text-muted small text-truncate mb-3" style="font-size: 0.75rem">${r.instrucciones || 'Sin instrucciones'}</p>
+                                <div class="mt-auto d-flex gap-2">
+                                    <a href="receta_detalle.html?id=${id}" class="btn btn-sm btn-light rounded-pill flex-grow-1 fw-600">Ver</a>
+                                    <a href="receta_registro.html?id=${id}" class="btn btn-sm btn-outline-success rounded-circle p-0 d-flex align-items-center justify-content-center solo-admin" style="width: 32px; height: 32px" title="Editar"><i class="bi bi-pencil"></i></a>
+                                    <button onclick="eliminarReceta(${id})" class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center solo-admin" style="width: 32px; height: 32px" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function eliminarReceta(id) {
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                const success = await api.delete(`/recetas/${id}`);
+                if (success) {
+                    Swal.fire({
+                        title: '¡Eliminado!',
+                        text: 'La receta ha sido borrada.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    cargarRecetas();
+                }
+            }
+        }
+
+        function aplicarFiltrosAdmin() {
+            const texto = normalizarTexto(document.getElementById('filtroNombreCat').value);
+            const idCat = document.getElementById('filtroCategoriaCat').value;
+
+            const filtradas = todasLasRecetasAdmin.filter(r => {
+                const nombreNorm = normalizarTexto(r.nombre);
+                const matchNombre = nombreNorm.includes(texto);
+                const matchCat = idCat === "" || r.idCategoria == idCat;
+                return matchNombre && matchCat;
+            });
+            renderizarRecetasAdmin(filtradas);
+        }
+
+        async function loadCategoriasSelect() {
+            const selModal = document.getElementById('categoriaReceta');
+            const selFiltro = document.getElementById('filtroCategoriaCat');
+            const catDB = await api.get('/categorias');
+            if (catDB) {
+                catDB.forEach(c => {
+                    const opt = `<option value="${c.idCategoria}">${c.nombre}</option>`;
+                    selModal.innerHTML += opt;
+                    selFiltro.innerHTML += opt;
+                });
+            }
+        }
+
+        async function loadIngredientesSelects() {
+            ingredientesDB = await api.get('/ingredientes') || [];
+            agregarFilaIngrediente(); 
+        }
+
+        const UNIDADES = [
+            { v: 'g',       l: 'g (gramos)' },
+            { v: 'kg',      l: 'kg (kilogramos)' },
+            { v: 'ml',      l: 'ml (mililitros)' },
+            { v: 'l',       l: 'l (litros)' },
+            { v: 'taza',    l: 'Taza(s)' },
+            { v: 'cda',     l: 'Cucharada(s)' },
+            { v: 'cdta',    l: 'Cucharadita(s)' },
+            { v: 'unidad',  l: 'Unidad(es)' },
+            { v: 'diente',  l: 'Diente(s)' },
+            { v: 'ramita',  l: 'Ramita(s)' },
+            { v: 'hoja',    l: 'Hoja(s)' },
+            { v: 'lata',    l: 'Lata(s)' },
+            { v: 'paquete', l: 'Paquete(s)' },
+            { v: 'porcion', l: 'Porción(es)' },
+        ];
+
+        // Almacena las instancias de Tagify para cada fila para poder extraer los IDs luego
+        let tagifyInstances = {};
+
+        function agregarFilaIngrediente(idIng = null, nombreIng = '', cantidadTotal = '') {
+            const container = document.getElementById('ingredientesContainer');
+            const rowId = 'ing-row-' + Date.now();
+            
+            // Parsear cantidad y unidad si vienen juntas (ej: "500 g")
+            let cantValue = '';
+            let unitValue = 'g';
+            if (cantidadTotal) {
+                const parts = cantidadTotal.split(' ');
+                cantValue = parts[0];
+                unitValue = parts[1] || 'g';
+            }
+
+            let unitOptions = UNIDADES.map(u => `<option value="${u.v}" ${u.v === unitValue ? 'selected' : ''}>${u.l}</option>`).join('');
+
+            const html = `
+                <div class="ing-item-row mb-2 animate-fade-in border-bottom pb-2" id="${rowId}" style="border-color:#dee2e6 !important;">
+                    <div class="row g-2 align-items-end">
+                        <!-- Búsqueda de Ingrediente -->
+                        <div class="col-12 col-md-5">
+                            <span class="ing-label-mobile">INGREDIENTE</span>
+                            <input class="form-control form-control-sm form-control-premium tagify-ing" 
+                                   placeholder="Buscar ingrediente..." 
+                                   data-row-id="${rowId}"
+                                   value="${nombreIng}">
+                        </div>
+                        <!-- Cantidad -->
+                        <div class="col-4 col-md-2">
+                            <span class="ing-label-mobile">CANT.</span>
+                            <input type="number" min="0.1" step="0.1"
+                                class="form-control form-control-sm form-control-premium ing-numero"
+                                placeholder="0.0" value="${cantValue}" required>
+                        </div>
+                        <!-- Unidad -->
+                        <div class="col-6 col-md-3">
+                            <span class="ing-label-mobile">UNIDAD</span>
+                            <select class="form-select form-select-sm form-control-premium ing-unidad" required>${unitOptions}</select>
+                        </div>
+                        <!-- Borrar -->
+                        <div class="col-2 col-md-2 text-end">
+                            <button type="button"
+                                class="btn btn-sm btn-outline-danger border-0 p-1"
+                                onclick="eliminarFilaIngrediente('${rowId}')"
+                                title="Eliminar">
+                                <i class="bi bi-trash fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+
+            // Inicializar Tagify en esta nueva fila
+            const input = container.querySelector(`#${rowId} .tagify-ing`);
+            const tInstance = new Tagify(input, {
+                whitelist: ingredientesDB.map(i => ({ value: i.nombre, id: i.idIngrediente })),
+                enforceWhitelist: true,
+                mode: "select",
+                dropdown: {
+                    enabled: 0,
+                    closeOnSelect: true
+                }
+            });
+
+            // Al seleccionar, saltar al campo de cantidad para mayor velocidad
+            tInstance.on('select', () => {
+                container.querySelector(`#${rowId} .ing-numero`).focus();
+            });
+
+            tagifyInstances[rowId] = tInstance;
+        }
+
+        function eliminarFilaIngrediente(rowId) {
+            document.getElementById(rowId).remove();
+            delete tagifyInstances[rowId];
+        }
+
+        function agregarPasoInstruccion(valor = '') {
+            const container = document.getElementById('pasosInstruccionesContainer');
+            const stepId = 'step-' + Date.now();
+            const stepCount = container.querySelectorAll('.step-item-row').length + 1;
+
+            const html = `
+                <div class="d-flex gap-2 mb-2 animate-fade-in step-item-row" id="${stepId}">
+                    <div class="fw-bold text-success paso-numero" style="min-width:22px; padding-top:6px; font-size:0.9rem;">${stepCount}.</div>
+                    <textarea class="form-control form-control-sm form-control-premium step-textarea"
+                        rows="2" placeholder="Describe este paso..." style="font-size:0.9rem;">${valor}</textarea>
+                    <button type="button"
+                        class="btn btn-sm btn-outline-danger border-0 align-self-start"
+                        style="margin-top:4px; padding: 4px 6px;"
+                        onclick="this.closest('.step-item-row').remove(); reenumerarPasos();">
+                        <i class="bi bi-trash" style="font-size:0.8rem;"></i>
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+        function reenumerarPasos() {
+            const container = document.getElementById('pasosInstruccionesContainer');
+            container.querySelectorAll('.step-item-row').forEach((row, index) => {
+                row.querySelector('div').textContent = (index + 1) + '.';
+            });
+        }
+
+        document.getElementById('recetaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
+
+            try {
+                let imgUrl = null;
+                const fileInp = document.getElementById('imagenReceta');
+                if (fileInp.files.length > 0) {
+                    const formData = new FormData();
+                    formData.append('file', fileInp.files[0]);
+                    const upResp = await fetch(`${API_BASE_URL}/Uploads/image`, { method: 'POST', body: formData });
+                    if (upResp.ok) {
+                        const data = await upResp.json();
+                        imgUrl = data.url;
+                    }
+                }
+
+                const ingredientes = [];
+                document.querySelectorAll('.ing-item-row').forEach(f => {
+                    const rowId = f.id;
+                    const tInstance = tagifyInstances[rowId];
+                    const selectedVal = tInstance ? tInstance.value[0] : null;
+                    const id = selectedVal ? selectedVal.id : null;
+                    
+                    const numero = f.querySelector('.ing-numero').value;
+                    const unidad = f.querySelector('.ing-unidad').value;
+                    if (id && numero) {
+                        const cantStr = `${numero} ${unidad}`;
+                        ingredientes.push({ idIngrediente: parseInt(id), cantidad: cantStr });
+                    }
+                });
+// ... (rest of the logic remains the same, I'll provide the surrounding context correctly)
+                const pasosArr = [];
+                document.querySelectorAll('.step-textarea').forEach(ta => {
+                    if (ta.value.trim()) pasosArr.push(ta.value.trim());
+                });
+
+                const payload = {
+                    nombre: document.getElementById('nombreReceta').value,
+                    idCategoria: parseInt(document.getElementById('categoriaReceta').value) || null,
+                    instrucciones: pasosArr.join('\n'),
+                    imagenUrl: imgUrl,
+                    tiempoPreparacion: 30,
+                    recetaIngredientes: ingredientes
+                };
+
+                const res = await api.post('/recetas', payload);
+                if (res) {
+                    bootstrap.Modal.getInstance(document.getElementById('recetaModal')).hide();
+                    e.target.reset();
+                    document.getElementById('ingredientesContainer').innerHTML = '';
+                    tagifyInstances = {}; // Limpiar instancias
+                    document.getElementById('pasosInstruccionesContainer').innerHTML = '';
+                    agregarPasoInstruccion();
+                    loadIngredientesSelects();
+                    cargarRecetas();
+                }
+            } catch (err) {
+                alert('Ocurrió un error al guardar.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Guardar Receta';
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+</body>
+</html>

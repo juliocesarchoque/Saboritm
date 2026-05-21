@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugerencias de Cocina - Saboritm</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='14' fill='%23D6A23B' /%3E%3Cpath fill='none' stroke='%23D6A23B' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' d='M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z' /%3E%3Cpath fill='none' stroke='%23D6A23B' stroke-width='2.3' stroke-linejoin='round' stroke-linecap='round' d='M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z' transform='translate(50,50) scale(0.86) translate(-50,-50)' /%3E%3C/svg%3E">
+    <meta name="theme-color" content="#198754">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Tagify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+        
+        /* Custom Sugerencias Container */
+        .selector-container {
+            border-radius: 24px;
+            background: #fff;
+            padding: 2rem;
+        }
+
+        /* Tagify Custom Style */
+        .tagify {
+            width: 100%;
+            border-radius: 15px;
+            padding: 6px 10px;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+            background: #fdfdfd;
+        }
+        .tagify:focus-within {
+            border-color: #198754;
+            background: #fff;
+        }
+        .tagify__tag {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-radius: 10px;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .tagify__tag > div {
+            max-width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .tagify__tag__removeBtn {
+            border-radius: 50%;
+            margin-right: 6px;
+            transition: background 0.2s;
+        }
+        .tagify__tag__removeBtn:hover {
+            background: #198754;
+            color: white;
+        }
+        
+        .populares-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+        .populares-scroll::-webkit-scrollbar { display: none; }
+        
+        .btn-pop {
+            white-space: nowrap;
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #eee;
+            background: white;
+            transition: all 0.2s;
+        }
+        .btn-pop:hover {
+            border-color: #198754;
+            color: #198754;
+            background: #f1f8f5;
+            transform: translateY(-2px);
+        }
+
+        .results-tabs .nav-link {
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        .results-tabs .nav-link.active {
+            background-color: var(--success-soft) !important;
+            color: var(--primary-color) !important;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="34" height="34" style="overflow: visible;">
+                    <circle cx="50" cy="50" r="14" fill="#D6A23B" />
+                    <path fill="none" stroke="#D6A23B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z" />
+                    <path fill="none" stroke="#D6A23B" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" d="M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z" transform="translate(50,50) scale(0.86) translate(-50,-50)" />
+                </svg>
+                <span class="fs-4" style="letter-spacing: -0.5px;">
+                    <span style="color: #198754; font-weight: 700;">Sabor</span><span style="color: #212529; font-weight: 400;">itm</span>
+                </span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link-custom" href="#" role="button" data-bs-toggle="dropdown">
+                            Catálogos
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow-lg rounded-4 p-2">
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="recetas.html"><i class="bi bi-book me-2"></i>Recetas</a></li>
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="categorias.html"><i class="bi bi-tags me-2"></i>Categorías</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="ingredientes.html"><i class="bi bi-basket me-2"></i>Ingredientes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-3 mt-3 mt-lg-0 pb-3 pb-lg-0">
+                    <a href="sugerencias_cocina.html" class="btn btn-premium btn-premium-success shadow justify-content-center">
+                        <i class="bi bi-magic fs-5"></i> <span>¿Qué cocino hoy?</span>
+                    </a>
+                    <button id="btn-auth-session" class="btn btn-outline-success border-2 rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2" title="Admin">
+                        <i class="bi bi-person-fill fs-4"></i> Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="text-center mb-5 animate-fade-in">
+            <h1 class="display-5 fw-bold text-dark mb-3">¿Qué cocinamos hoy?</h1>
+            <p class="text-muted fs-5">Busca tus ingredientes y deja que la magia ocurra.</p>
+        </div>
+
+        <!-- New Selection UI -->
+        <div class="row justify-content-center animate-fade-in" style="animation-delay: 0.1s">
+            <div class="col-lg-10">
+                <div class="selector-container shadow-lg border-0 mb-5">
+                    <label class="form-label fw-bold text-success mb-3 fs-5">
+                        <i class="bi bi-search me-2"></i> Busca y añade tus ingredientes:
+                    </label>
+                    <input name='tags-select-mode' class='some_class_name' placeholder='Escribe ej: Pollo, Papa, Arroz...'>
+                    
+                    <div class="mt-4">
+                        <p class="text-muted small fw-bold mb-2">SUGERENCIAS POPULARES:</p>
+                        <div id="populares-container" class="populares-scroll">
+                            <!-- Populares go here -->
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <button id="btn-buscar-recetas" class="btn btn-premium btn-premium-success px-5 py-3 shadow-lg">
+                            <i class="bi bi-stars fs-4"></i> Buscar Sugerencias Mágicas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-area animate-fade-in" style="animation-delay: 0.2s">
+            <ul class="nav nav-pills results-tabs justify-content-center mb-5 gap-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="pills-falta-tab" data-bs-toggle="pill" data-bs-target="#pills-falta">
+                        <i class="bi bi-hourglass-split me-1"></i> Falta poco
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="pills-listas-tab" data-bs-toggle="pill" data-bs-target="#pills-listas">
+                        <i class="bi bi-check-all me-1"></i> Listas
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-falta">
+                    <div class="row g-4" id="contenedor-faltan">
+                         <div class="col-12 text-center py-5 opacity-50">
+                             <i class="bi bi-arrow-up-circle fs-1"></i>
+                             <p class="mt-2">Selecciona ingredientes para comenzar</p>
+                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-listas">
+                    <div class="row g-4" id="contenedor-listas"></div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="js/api.js"></script>
+    <script>
+        const DEFAULT_NO_FOOD = 'assets/no-food.png';
+        let ingredientesDB = [];
+        let tagify = null;
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Función para normalizar texto
+        const normalizar = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const input = document.querySelector('input[name=tags-select-mode]');
+            
+            // 1. Cargar solo Ingredientes Principales para no saturar el buscador
+            ingredientesDB = await api.get('/ingredientes/principales') || []; 
+            
+            // 2. Inicializar Tagify
+            tagify = new Tagify(input, {
+                whitelist: ingredientesDB.map(i => ({ value: i.nombre, id: i.idIngrediente })),
+                enforceWhitelist: false, // Permitir escribir sinónimos
+                dropdown: {
+                    maxItems: 20,
+                    classname: "tags-look",
+                    enabled: 0,
+                    closeOnSelect: true
+                }
+            });
+
+            // 3. Renderizar Populares (Acceso rápido)
+            renderPopulares();
+
+            document.getElementById('btn-buscar-recetas').addEventListener('click', buscarRecetas);
+        });
+
+        function renderPopulares() {
+            const container = document.getElementById('populares-container');
+            const populares = ['Pollo', 'Papa', 'Arroz', 'Carne de res', 'Cebolla', 'Tomate', 'Huevo', 'Queso', 'Ajo'];
+            
+            container.innerHTML = '';
+            populares.forEach(name => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-pop';
+                btn.textContent = name;
+                btn.onclick = () => {
+                    tagify.addTags([{ value: name }]);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        async function buscarRecetas() {
+            if (tagify.value.length === 0) return Swal.fire({
+                title: '¿Qué tienes en tu cocina?',
+                text: 'Por favor, selecciona al menos un ingrediente para que la magia ocurra.',
+                icon: 'info',
+                confirmButtonColor: '#198754'
+            });
+
+            const btn = document.getElementById('btn-buscar-recetas');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Magia en proceso...';
+
+            try {
+                // El backend espera una lista de nombres separados por coma
+                const nombres = tagify.value.map(tag => tag.value).join(',');
+                const recetas = await api.get(`/recetas/match?ingredientes=${encodeURIComponent(nombres)}`);
+                
+                const contListas = document.getElementById('contenedor-listas');
+                const contFaltan = document.getElementById('contenedor-faltan');
+                
+                contListas.innerHTML = '';
+                contFaltan.innerHTML = '';
+
+                if (!recetas || recetas.length === 0) {
+                    contListas.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-emoji-frown display-1 text-muted opacity-25"></i>
+                            <h5 class="text-muted mt-3">Vaya, no encontramos recetas con exactamente esos ingredientes.</h5>
+                            <p class="text-muted">Prueba añadiendo ingredientes básicos como sal, aceite o cebolla.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Scroll suave a los resultados
+                document.querySelector('.results-area').scrollIntoView({ behavior: 'smooth' });
+
+                recetas.forEach((r, index) => {
+                    const img = resolveImgUrl(r.imagenUrl) || DEFAULT_NO_FOOD;
+                    const isFull = r.porcentajeMatch === 100;
+                    const delay = (index % 6) * 0.1;
+                    
+                    const card = `
+                        <div class="col-12 col-md-6 col-lg-4 animate-fade-in" style="animation-delay: ${delay}s">
+                            <div class="card card-premium">
+                                <div class="card-img-container">
+                                    <span class="recipe-badge position-absolute top-0 end-0 m-3 z-3">
+                                        <i class="bi bi-lightning-charge-fill text-warning me-1"></i> ${r.porcentajeMatch}% Match
+                                    </span>
+                                    <a href="receta_detalle.html?id=${r.recetaId}">
+                                        <img src="${img}" class="card-img-top" alt="${r.recetaNombre}" style="height: 200px; object-fit: cover;">
+                                    </a>
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <h5 class="card-title fw-bold mb-2 text-dark">${r.recetaNombre}</h5>
+                                    <div class="mb-4">
+                                        ${r.ingredientesFaltantes.length > 0 ? 
+                                            `<div class="small text-muted mb-1">Te falta:</div>
+                                             <div class="text-danger small fw-500"><i class="bi bi-x-circle-fill me-1"></i>${r.ingredientesFaltantes.join(', ')}</div>` : 
+                                            `<div class="text-success small fw-600"><i class="bi bi-check-circle-fill me-1"></i>¡Tienes todo lo necesario!</div>`}
+                                    </div>
+                                    <div class="mt-auto">
+                                        <a href="receta_detalle.html?id=${r.recetaId}" class="btn btn-premium ${isFull ? 'btn-premium-success' : 'btn-premium-outline'} w-100 justify-content-center">
+                                            Ver Receta <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    if (isFull) contListas.innerHTML += card;
+                    else contFaltan.innerHTML += card;
+                });
+
+                // Si no hay listas, mostrar mensaje en esa pestaña
+                if(contListas.innerHTML === '') {
+                    contListas.innerHTML = '<div class="col-12 text-center py-5 text-muted"><p>No tienes todos los ingredientes para ninguna receta aún. ¡Mira en "Falta poco"!</p></div>';
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-stars fs-4"></i> Buscar Sugerencias Mágicas';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - Saboritm</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='14' fill='%23D6A23B' /%3E%3Cpath fill='none' stroke='%23D6A23B' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' d='M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z' /%3E%3Cpath fill='none' stroke='%23D6A23B' stroke-width='2.3' stroke-linejoin='round' stroke-linecap='round' d='M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z' transform='translate(50,50) scale(0.86) translate(-50,-50)' /%3E%3C/svg%3E">
+    <meta name="theme-color" content="#198754">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>body { font-family: 'Outfit', sans-serif; }</style>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="34" height="34" style="overflow: visible;">
+                    <circle cx="50" cy="50" r="14" fill="#D6A23B" />
+                    <path fill="none" stroke="#D6A23B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z" />
+                    <path fill="none" stroke="#D6A23B" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" d="M 42.5 20 C 57.5 10, 77.5 20, 77.5 35 C 92.5 45, 87.5 70, 72.5 75 C 62.5 90, 32.5 90, 22.5 75 C 7.5 70, 7.5 45, 17.5 35 C 17.5 20, 37.5 10, 42.5 20 Z" transform="translate(50,50) scale(0.86) translate(-50,-50)" />
+                </svg>
+                <span class="fs-4" style="letter-spacing: -0.5px;">
+                    <span style="color: #198754; font-weight: 700;">Sabor</span><span style="color: #212529; font-weight: 400;">itm</span>
+                </span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link-custom active" href="#" role="button" data-bs-toggle="dropdown">
+                            Catálogos
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow-lg rounded-4 p-2">
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="recetas.html"><i class="bi bi-book me-2"></i>Recetas</a></li>
+                            <li><a class="dropdown-item py-2 px-3 rounded-3 active" href="categorias.html"><i class="bi bi-tags me-2"></i>Categorías</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item py-2 px-3 rounded-3" href="ingredientes.html"><i class="bi bi-basket me-2"></i>Ingredientes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-3 mt-3 mt-lg-0 pb-3 pb-lg-0">
+                    <a href="sugerencias_cocina.html" class="btn btn-premium btn-premium-success shadow justify-content-center">
+                        <i class="bi bi-magic fs-5"></i> <span>¿Qué cocino hoy?</span>
+                    </a>
+                    <button id="btn-auth-session" class="btn btn-outline-success border-2 rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2" title="Admin">
+                        <i class="bi bi-person-fill fs-4"></i> Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Script para marcar el link activo y estilos extra -->
+    <style>
+        .hover-bg-light { transition: background-color 0.2s, color 0.2s; }
+        .hover-bg-light:hover { background-color: #f8f9fa; color: #198754 !important; }
+        .nav-link.active-link { 
+            background-color: #e8f5e9; 
+            color: #198754 !important; 
+            font-weight: 700; 
+        }
+        .dropdown-item.active-link {
+            background-color: #e8f5e9;
+            color: #198754 !important;
+            font-weight: 700;
+        }
+        .pulse-btn:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.navbar-custom');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // Lógica para asignar la clase active-link automáticamente
+            const currentPath = window.location.pathname.split("/").pop() || "index.html";
+            const navLinks = document.querySelectorAll(".nav-link-custom, .dropdown-item");
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href");
+                if (href === currentPath) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+    <!-- Fin Navbar Personalizado -->
+
+    <div class="admin-header py-4 bg-white border-bottom mb-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="text-center text-md-start">
+                <h1 class="h2 fw-bold text-dark mb-1">Categorías</h1>
+                <p class="text-muted mb-0">Organiza tus recetas por tipos y estilos</p>
+            </div>
+            <button class="btn btn-premium btn-premium-success shadow-sm" data-bs-toggle="modal" data-bs-target="#categoriaModal">
+                <i class="bi bi-plus-circle"></i> <span>Nueva Categoría</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="container mb-5 animate-fade-in">
+        <div class="card card-premium overflow-hidden border-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 py-3 text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.05em">Nombre de Categoría</th>
+                            <th class="text-end pe-4 py-3 text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.05em">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categorias-tbody" class="border-top-0">
+                        <tr><td colspan="2" class="text-center text-muted py-5">
+                            <div class="spinner-border text-success spinner-border-sm me-2" role="status"></div>
+                            Cargando categorías...
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo/Editar Categoría -->
+    <div class="modal fade" id="categoriaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="categoriaForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Guardar Categoría</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="nombreCategoria">Nombre</label>
+                            <input type="text" class="form-control" id="nombreCategoria" name="nombre" placeholder="Ej: Bebidas" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tbody = document.getElementById('categorias-tbody');
+            const form = document.getElementById('categoriaForm');
+            const modalEl = document.getElementById('categoriaModal');
+            let bootstrapModal = null;
+            if(window.bootstrap) bootstrapModal = new bootstrap.Modal(modalEl);
+
+            const cargarCategorias = async () => {
+                const categorias = await api.get('/categorias');
+                tbody.innerHTML = '';
+                if (!categorias || categorias.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="2" class="text-center py-4">No hay categorías registradas.</td></tr>';
+                    return;
+                }
+                
+                categorias.forEach(cat => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td class="ps-4 align-middle">${cat.nombre}</td>
+                            <td class="text-end pe-4 align-middle">
+                                <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${cat.idCategoria}">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                document.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const result = await Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "Se eliminarán las referencias en las recetas.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#198754',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sí, eliminar',
+                            cancelButtonText: 'Cancelar'
+                        });
+
+                        if (result.isConfirmed) {
+                            const id = parseInt(e.target.getAttribute('data-id'));
+                            const success = await api.delete(`/categorias/${id}`);
+                            if (success) {
+                                Swal.fire({ title: '¡Eliminado!', icon: 'success', timer: 1000, showConfirmButton: false });
+                                cargarCategorias();
+                            }
+                        }
+                    });
+                });
+            };
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nombre = document.getElementById('nombreCategoria').value;
+                if(nombre) {
+                    const res = await api.post('/categorias', { nombre });
+                    if (res) {
+                        Swal.fire({ title: '¡Guardado!', icon: 'success', timer: 1000, showConfirmButton: false });
+                        form.reset();
+                        if(bootstrapModal) bootstrapModal.hide();
+                        cargarCategorias();
+                    }
+                }
+            });
+
+            await cargarCategorias();
+        });
+    </script>
+</body>
+</html>

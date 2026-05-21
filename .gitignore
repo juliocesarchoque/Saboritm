@@ -1,0 +1,130 @@
+
+# ============================================================
+#  .gitignore — AppRecetas (.NET 8 API + HTML/JS Frontend)
+# ============================================================
+
+# ──────────────────────────────────────────────────────────────
+# .NET / C#
+# ──────────────────────────────────────────────────────────────
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vs/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Publish output
+[Pp]ublish/
+PublishProfiles/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+packages/
+!**/packages/build/
+nuget.config
+
+# Runtime / build
+*.log
+*.cache
+launchSettings.json
+
+# Entity Framework migrations (optional — quitá si quieres versionar migraciones)
+# Migrations/
+
+# ──────────────────────────────────────────────────────────────
+# ASP.NET Core — archivos sensibles
+# ──────────────────────────────────────────────────────────────
+appsettings.Development.json
+appsettings.Production.json
+*.pfx
+*.p12
+secrets.json
+**/secrets/
+
+# ──────────────────────────────────────────────────────────────
+# Imágenes subidas por usuarios (wwwroot/uploads)
+# ──────────────────────────────────────────────────────────────
+**/wwwroot/uploads/*
+!**/wwwroot/uploads/no-food.png
+
+
+
+# ──────────────────────────────────────────────────────────────
+# Frontend / Node
+# ──────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+dist/
+.cache/
+
+# ──────────────────────────────────────────────────────────────
+# IDEs y editores
+# ──────────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+.vscode/*.code-workspace
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ──────────────────────────────────────────────────────────────
+# Python (scripts en /scratch)
+# ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+*.egg-info/
+
+# ──────────────────────────────────────────────────────────────
+# Archivos temporales del proyecto
+# ──────────────────────────────────────────────────────────────
+scratch/
+*.tmp
+*.bak
+*.orig
+
+# ──────────────────────────────────────────────────────────────
+# Base de datos local y scripts de migración
+# ──────────────────────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+*.sql
+sinonimos.txt
+
+
+# ──────────────────────────────────────────────────────────────
+# Gemini / AI tools
+# ──────────────────────────────────────────────────────────────
+.gemini/
+.agents/
+skills-lock.json
+
+# Supabase CLI
+supabase/.temp/
+
+# UI/UX design notes
+design-system/
+
+
