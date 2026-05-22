@@ -38,23 +38,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 // Configure CORS for frontend access
-var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins",
         corsBuilder =>
         {
-            if (builder.Environment.IsDevelopment())
-            {
-                corsBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            }
-            else
-            {
-                corsBuilder.WithOrigins(allowedOrigins)
+            corsBuilder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
-            }
         });
 });
 
