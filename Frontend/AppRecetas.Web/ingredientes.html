@@ -66,7 +66,7 @@
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-success"></i></span>
                     <input type="text" id="searchIngrediente" class="form-control form-control-premium border-start-0" placeholder="Buscar ingrediente...">
                 </div>
-                <button class="btn btn-premium btn-premium-success shadow-sm" data-bs-toggle="modal" data-bs-target="#ingredienteModal">
+                <button class="btn btn-premium btn-premium-success shadow-sm solo-admin d-none" data-bs-toggle="modal" data-bs-target="#ingredienteModal">
                     <i class="bi bi-plus-circle"></i> <span>Nuevo</span>
                 </button>
             </div>
@@ -80,7 +80,7 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="ps-4 py-3 text-secondary small fw-bold text-uppercase">Nombre del Ingrediente</th>
-                            <th class="text-end pe-4 py-3 text-secondary small fw-bold text-uppercase">Acciones</th>
+                            <th class="text-end pe-4 py-3 text-secondary small fw-bold text-uppercase solo-admin d-none">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="ingredientes-tbody" class="border-top-0">
@@ -147,8 +147,8 @@
                     html += `
                         <tr>
                             <td class="ps-4 align-middle">${ing.nombre}</td>
-                            <td class="text-end pe-4 align-middle">
-                                <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${ing.idIngrediente}">
+                            <td class="text-end pe-4 align-middle solo-admin d-none">
+                                <button class="btn btn-sm btn-outline-danger btn-delete solo-admin d-none" data-id="${ing.idIngrediente}">
                                     <i class="bi bi-trash me-1"></i> Eliminar
                                 </button>
                             </td>
@@ -178,6 +178,10 @@
                         }
                     });
                 });
+                
+                if (typeof actualizarInterfazAuth === 'function') {
+                    actualizarInterfazAuth();
+                }
             };
 
             const cargarIngredientes = async () => {

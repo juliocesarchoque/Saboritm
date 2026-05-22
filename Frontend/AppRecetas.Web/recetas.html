@@ -113,7 +113,7 @@
                 <h1 class="h2 fw-bold text-dark mb-1">Gestión de Recetas</h1>
                 <p class="text-muted mb-0">Administra y organiza tus creaciones culinarias</p>
             </div>
-            <a href="receta_registro.html" class="btn btn-premium btn-premium-success solo-admin shadow-sm">
+            <a href="receta_registro.html" class="btn btn-premium btn-premium-success solo-admin d-none shadow-sm">
                 <i class="bi bi-plus-circle"></i> <span>Nueva Receta</span>
             </a>
         </div>
@@ -214,14 +214,18 @@
                                 <p class="text-muted small text-truncate mb-3" style="font-size: 0.75rem">${r.instrucciones || 'Sin instrucciones'}</p>
                                 <div class="mt-auto d-flex gap-2">
                                     <a href="receta_detalle.html?id=${id}" class="btn btn-sm btn-light rounded-pill flex-grow-1 fw-600">Ver</a>
-                                    <a href="receta_registro.html?id=${id}" class="btn btn-sm btn-outline-success rounded-circle p-0 d-flex align-items-center justify-content-center solo-admin" style="width: 32px; height: 32px" title="Editar"><i class="bi bi-pencil"></i></a>
-                                    <button onclick="eliminarReceta(${id})" class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center solo-admin" style="width: 32px; height: 32px" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                    <a href="receta_registro.html?id=${id}" class="btn btn-sm btn-outline-success rounded-circle p-0 d-flex align-items-center justify-content-center solo-admin d-none" style="width: 32px; height: 32px" title="Editar"><i class="bi bi-pencil"></i></a>
+                                    <button onclick="eliminarReceta(${id})" class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center solo-admin d-none" style="width: 32px; height: 32px" title="Eliminar"><i class="bi bi-trash"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
             });
+            
+            if (typeof actualizarInterfazAuth === 'function') {
+                actualizarInterfazAuth();
+            }
         }
 
         async function eliminarReceta(id) {

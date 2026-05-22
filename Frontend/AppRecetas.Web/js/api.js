@@ -88,9 +88,10 @@ async function actualizarInterfazAuth() {
     const isAdmin = !!session;
     
     document.querySelectorAll('.solo-admin').forEach(el => {
-        el.style.display = isAdmin ? 'block' : 'none';
-        if (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN') {
-             el.style.display = isAdmin ? 'inline-block' : 'none';
+        if (isAdmin) {
+            el.classList.remove('d-none');
+        } else {
+            el.classList.add('d-none');
         }
     });
 

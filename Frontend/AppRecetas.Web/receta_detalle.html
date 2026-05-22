@@ -221,7 +221,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
-                                    <a href="receta_registro.html?id=${r.idReceta}" class="btn btn-premium btn-premium-outline solo-admin px-4">
+                                    <a href="receta_registro.html?id=${r.idReceta}" class="btn btn-premium btn-premium-outline solo-admin d-none px-4">
                                         <i class="bi bi-pencil-square"></i> Editar Receta
                                     </a>
                                 </div>
@@ -268,6 +268,10 @@
                     </div>
                 `;
                 document.title = `${r.nombre} - Saboritm`;
+                
+                if (typeof actualizarInterfazAuth === 'function') {
+                    actualizarInterfazAuth();
+                }
             } catch (error) {
                 container.innerHTML = '<div class="container my-5 alert alert-danger">Error cargando receta.</div>';
             }

@@ -110,7 +110,7 @@
                 <h1 class="h2 fw-bold text-dark mb-1">Categorías</h1>
                 <p class="text-muted mb-0">Organiza tus recetas por tipos y estilos</p>
             </div>
-            <button class="btn btn-premium btn-premium-success shadow-sm" data-bs-toggle="modal" data-bs-target="#categoriaModal">
+            <button class="btn btn-premium btn-premium-success shadow-sm solo-admin d-none" data-bs-toggle="modal" data-bs-target="#categoriaModal">
                 <i class="bi bi-plus-circle"></i> <span>Nueva Categoría</span>
             </button>
         </div>
@@ -123,7 +123,7 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="ps-4 py-3 text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.05em">Nombre de Categoría</th>
-                            <th class="text-end pe-4 py-3 text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.05em">Acciones</th>
+                            <th class="text-end pe-4 py-3 text-secondary small fw-bold text-uppercase solo-admin d-none" style="letter-spacing: 0.05em">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="categorias-tbody" class="border-top-0">
@@ -183,8 +183,8 @@
                     tbody.innerHTML += `
                         <tr>
                             <td class="ps-4 align-middle">${cat.nombre}</td>
-                            <td class="text-end pe-4 align-middle">
-                                <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${cat.idCategoria}">Eliminar</button>
+                            <td class="text-end pe-4 align-middle solo-admin d-none">
+                                <button class="btn btn-sm btn-outline-danger btn-delete solo-admin d-none" data-id="${cat.idCategoria}">Eliminar</button>
                             </td>
                         </tr>
                     `;
@@ -213,6 +213,10 @@
                         }
                     });
                 });
+                
+                if (typeof actualizarInterfazAuth === 'function') {
+                    actualizarInterfazAuth();
+                }
             };
 
             form.addEventListener('submit', async (e) => {
