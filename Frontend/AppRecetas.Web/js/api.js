@@ -115,6 +115,9 @@ async function logout() {
 function resolveImgUrl(url) {
     if (!url || url.trim() === '') return null;
     if (/^https?:\/\//i.test(url)) return url;   
+    if (url.startsWith('/uploads/')) {
+        return `https://urbpmczgltzjhuirkedu.supabase.co/storage/v1/object/public/recetas/${url.substring(9)}`;
+    }
     if (url.startsWith('/')) return API_HOST + url; 
     return url; 
 }

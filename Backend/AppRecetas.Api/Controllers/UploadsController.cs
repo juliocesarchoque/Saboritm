@@ -78,5 +78,50 @@ namespace AppRecetas.Api.Controllers
                 return Ok(new { url = relativeUrl });
             }
         }
+
+        [HttpPost("migrate-local-images")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+        public async Task<IActionResult> MigrateLocalImages()
+        {
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                return NotFound(new { message = "El directorio local 'wwwroot/uploads' no existe." });
+            }
+
+            var files = Directory.GetFiles(uploadsFolder);
+            var uploaded = new System.Collections.Generic.List<string>();
+            var errors = new System.Collections.Generic.List<string>();
+            var bucket = "recetas";
+
+            foreach (var filePath in files)
+            {
+                var fileName = Path.GetFileName(filePath);
+                try
+                {
+                    var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                    // Subir a Supabase Storage con Upsert = true para evitar duplicaciones
+                    await _supabase.Storage.From(bucket).Upload(
+                        bytes, 
+                        fileName, 
+                        new Supabase.Storage.FileOptions { Upsert = true }
+                    );
+                    uploaded.Add(fileName);
+                }
+                catch (Exception ex)
+                {
+                    errors.Add($"Error al subir {fileName}: {ex.Message}");
+                }
+            }
+
+            return Ok(new { 
+                message = "Migración completada", 
+                totalFiles = files.Length,
+                uploadedCount = uploaded.Count, 
+                failedCount = errors.Count,
+                uploadedFiles = uploaded,
+                errors = errors
+            });
+        }
     }
 }
