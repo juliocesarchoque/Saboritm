@@ -31,7 +31,7 @@ const supabaseClient = getSupabase();
 const supabase = supabaseClient; // Alias para compatibilidad
 
 // --- Configuración de la API .NET ---
-let API_BASE_URL = 'https://tu-api-en-produccion.com/api'; // <--- CAMBIAR POR LA URL REAL EN PRODUCCIÓN
+let API_BASE_URL = 'https://saboritm-api.onrender.com/api';
 
 const currentHost = window.location.hostname;
 if (!currentHost || currentHost === 'localhost' || currentHost === '127.0.0.1') {
