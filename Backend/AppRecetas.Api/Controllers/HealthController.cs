@@ -18,6 +18,7 @@ namespace AppRecetas.Api.Controllers
         }
 
         [HttpGet]
+        [HttpHead]
         public async Task<IActionResult> CheckHealth()
         {
             try
